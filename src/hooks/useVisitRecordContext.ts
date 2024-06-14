@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { VisitRecordContext } from "../contexts/VisitRecordContext";
+import { VisitRecordContext } from "@/contexts/VisitRecordContext";
 
 const useVisitRecordContext = () => {
   const visitRecordContext = useContext(VisitRecordContext);
