@@ -2,8 +2,10 @@ import { successResponseSchema } from "@/lib/apiResponse";
 import Link from "next/link";
 import { climbingCenterSchema } from "../api/climb-center/schema";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
 const getClimbCenters = async () => {
-  const res = await fetch("http://localhost:3000/api/climb-center");
+  const res = await fetch(`${BASE_URL}/api/climb-center`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch climb centers");

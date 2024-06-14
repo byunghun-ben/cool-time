@@ -34,17 +34,16 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
 const createSectorSetting = async (sectorId: number, settingDate: string) => {
-  const response = await fetch(
-    "http://localhost:3000/api/climb-sector-setting",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        sectorId,
-        settingDate,
-      }),
-    }
-  );
+  const response = await fetch(`${BASE_URL}/api/climb-sector-setting`, {
+    method: "POST",
+    body: JSON.stringify({
+      sectorId,
+      settingDate,
+    }),
+  });
 
   if (!response.ok) {
     throw new Error("Failed to create sector setting");

@@ -1,16 +1,17 @@
 "use client";
 
 import { climbingCenterSchema } from "@/app/api/climb-center/schema";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 import { z } from "zod";
 import AddSectorSettingDialog from "./AddSectorSettingDialog";
-import { useCallback } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { TrashIcon } from "lucide-react";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 const deleteClimbSectorSetting = async (climbSectorSettingId: number) => {
   const response = await fetch(
-    `http://localhost:3000/api/climb-sector-setting/${climbSectorSettingId}`,
+    `${BASE_URL}/api/climb-sector-setting/${climbSectorSettingId}`,
     {
       method: "DELETE",
     }
