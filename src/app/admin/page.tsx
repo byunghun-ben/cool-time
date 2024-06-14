@@ -1,6 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
-import AddClimbCenterForm from "./components/AddClimbCenterForm";
+import Link from "next/link";
 import { z } from "zod";
+import AddClimbCenterForm from "./components/AddClimbCenterForm";
+import { Button } from "@/components/ui/button";
 
 const getClimbingCenters = async () => {
   const climbingCenterSchema = z.object({
@@ -23,9 +25,6 @@ const getClimbingCenters = async () => {
 
 const AdminPage = async () => {
   const climbingCenters = await getClimbingCenters();
-
-  console.log(climbingCenters);
-
   return (
     <div>
       <h1>Admin</h1>
@@ -35,12 +34,11 @@ const AdminPage = async () => {
         <ul className="space-y-4">
           {climbingCenters.map((climbingCenter) => (
             <li key={climbingCenter.id}>
-              <h3>{climbingCenter.name}</h3>
-              <ul className="space-y-2">
-                {climbingCenter.climb_center_sector.map((sector) => (
-                  <li key={sector.id}>{sector.name}</li>
-                ))}
-              </ul>
+              <Button variant="secondary" asChild>
+                <Link href={`/admin/climb-centers/${climbingCenter.id}`}>
+                  {climbingCenter.name}
+                </Link>
+              </Button>
             </li>
           ))}
         </ul>

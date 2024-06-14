@@ -10,7 +10,10 @@ export const GET = async (request: Request) => {
 
   const res = await supabase.from("climb_center").select(`
       *,
-      climb_center_sector (*)
+      climb_center_sector (
+        *,
+        climb_center_sector_setting (*)
+      )
     `);
 
   const isSuccess = res.error === null;

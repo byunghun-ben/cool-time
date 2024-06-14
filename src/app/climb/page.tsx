@@ -1,9 +1,9 @@
 import { successResponseSchema } from "@/lib/apiResponse";
-import SignupForm from "./components/SignupForm";
-import { climbingCenterSchema } from "../api/climb_center/schema";
+import Link from "next/link";
+import { climbingCenterSchema } from "../api/climb-center/schema";
 
 const getClimbCenters = async () => {
-  const res = await fetch("http://localhost:3000/api/climb_center");
+  const res = await fetch("http://localhost:3000/api/climb-center");
 
   if (!res.ok) {
     throw new Error("Failed to fetch climb centers");
@@ -26,26 +26,23 @@ const ClimbPage = async () => {
   const climbCenters = await getClimbCenters();
 
   return (
-    <div>
-      <h1>Climb</h1>
+    <div className="flex flex-1 flex-col overflow-x-hidden">
+      <section className="flex flex-col gap-6 px-6 py-6">
+        <h2 className="text-lg font-semibold">암장 목록</h2>
 
-      <h2 className="text-lg font-semibold">암장 목록</h2>
-      <ul className="space-y-4">
-        {climbCenters.map((climbCenter) => (
-          <li key={climbCenter.id}>
-            <h3>{climbCenter.name}</h3>
-            <ul className="space-y-2">
-              {climbCenter.climb_center_sector.map((sector) => (
-                <li key={sector.id}>{sector.name}</li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-
-      <div className="max-w-sm border p-6 mx-auto">
-        <SignupForm />
-      </div>
+        <ul className="flex flex-col gap-4">
+          {climbCenters.map((climbCenter) => (
+            <li key={climbCenter.id}>
+              <Link
+                href={`/climb/${climbCenter.id}`}
+                className="flex border border-slate-200 rounded-lg p-4"
+              >
+                <span>{climbCenter.name}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 };
