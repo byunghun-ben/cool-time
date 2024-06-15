@@ -86,12 +86,15 @@ const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
   // 오늘을 기준으로 가장 최근 세팅 날짜
   const recentSettingDate = useMemo(() => {
     const todayDate = new Date();
+    const todayWithoutTime = new Date(
+      todayDate.getFullYear(),
+      todayDate.getMonth(),
+      todayDate.getDate()
+    );
 
-    return settingDates
-      .filter((settingDate) => {
-        return settingDate <= todayDate;
-      })
-      .pop();
+    return settingDates.filter((settingDate) => {
+      return settingDate <= todayWithoutTime;
+    })[0];
   }, [settingDates]);
 
   // 오늘을 기준으로 가장 가까운 세팅 날짜

@@ -129,7 +129,7 @@ const AddSectorSettingDialog = ({ sector }: Props) => {
                           {field.value ? (
                             format(field.value, "yyyy-MM-dd")
                           ) : (
-                            <span>방문일을 입력해주세요.</span>
+                            <span>세팅 날짜를 선택해주세요.</span>
                           )}
                           <CalendarIcon className="h-4 w-4 ml-auto opacity-50" />
                         </Button>

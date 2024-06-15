@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { z } from "zod";
 import AddSectorSettingDialog from "./AddSectorSettingDialog";
+import AddSectorForm from "./AddSectorForm";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
@@ -84,6 +85,8 @@ const SectorSection = ({ climbCenter }: Props) => {
           </li>
         ))}
       </ul>
+
+      <AddSectorForm climbCenterId={climbCenter.id} />
     </section>
   );
 };
