@@ -1,30 +1,10 @@
-import { createClient } from "@/utils/supabase/server";
-import Link from "next/link";
-import { z } from "zod";
-import AddClimbCenterForm from "./components/AddClimbCenterForm";
 import { Button } from "@/components/ui/button";
-
-const getClimbingCenters = async () => {
-  const climbingCenterSchema = z.object({
-    id: z.number(),
-    name: z.string(),
-  });
-
-  const supabase = createClient();
-
-  const { data: climbingCenterData, error: climbingCentersError } =
-    await supabase.from("climb_center").select(
-      `
-        *,
-        climb_center_sector (*)
-      `
-    );
-
-  return climbingCenterData || [];
-};
+import Link from "next/link";
+import { getClimbCenters } from "../climb/apis";
+import AddClimbCenterForm from "./components/AddClimbCenterForm";
 
 const AdminPage = async () => {
-  const climbingCenters = await getClimbingCenters();
+  const climbingCenters = await getClimbCenters();
   return (
     <div>
       <h1>Admin</h1>

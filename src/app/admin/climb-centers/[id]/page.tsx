@@ -1,26 +1,6 @@
-import { climbingCenterSchema } from "@/app/api/climb-center/schema";
-import { successResponseSchema } from "@/lib/apiResponse";
+import { getClimbCenter } from "@/app/climb/apis";
+import { notFound } from "next/navigation";
 import SectorSection from "./components/SectorSection";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
-const getClimbCenter = async (id: number) => {
-  const response = await fetch(`${BASE_URL}/api/climb-center/${id}`);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch climb center");
-  }
-
-  try {
-    const body = await response.json();
-    const parsedBody = successResponseSchema.parse(body);
-    const data = climbingCenterSchema.parse(parsedBody.data);
-    return data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
 
 type Props = {
   params: {
@@ -33,11 +13,7 @@ const ClimbCenterDetailAdminPage = async ({ params }: Props) => {
   const climbCenter = await getClimbCenter(climbCenterId);
 
   if (!climbCenter) {
-    return (
-      <div>
-        <h1>클라이밍 센터를 찾을 수 없어요.</h1>
-      </div>
-    );
+    return notFound();
   }
 
   const climbCenterSectors = climbCenter.climb_center_sector.map((sector) => {

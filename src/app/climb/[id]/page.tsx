@@ -1,32 +1,8 @@
-import { climbingCenterSchema } from "@/app/api/climb-center/schema";
-import { createClient } from "@/utils/supabase/server";
+import { notFound } from "next/navigation";
+import { getClimbCenter } from "../apis";
 import CooltimeSection from "./components/CooltimeSection";
 import VisitRecordSection from "./components/VisitRecordSection";
 import { VisitRecordProvider } from "./contexts/VisitRecordContext";
-
-const getClimbCenter = async (id: string) => {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
-    .from("climb_center")
-    .select(
-      `
-      *,
-      climb_center_sector (
-        *,
-        climb_center_sector_setting (*)
-      )
-    `
-    )
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    throw error;
-  }
-
-  return climbingCenterSchema.parse(data);
-};
 
 type Props = {
   params: {
@@ -35,7 +11,12 @@ type Props = {
 };
 
 const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
-  const climbCenter = await getClimbCenter(id);
+  const climbCenterId = Number(id);
+  const climbCenter = await getClimbCenter(climbCenterId);
+
+  if (!climbCenter) {
+    return notFound();
+  }
 
   return (
     <VisitRecordProvider>
