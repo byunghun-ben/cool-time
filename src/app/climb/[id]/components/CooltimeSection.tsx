@@ -4,8 +4,8 @@ import { climbCenterSectorSchema } from "@/app/api/climb-center/schema";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import { z } from "zod";
+import useVisitRecordContext from "../hooks/useVisitRecordContext";
 import SectorItem from "./SectorItem";
-import useVisitRecordContext from "@/hooks/useVisitRecordContext";
 
 const climbCenterSectorsSchema = z.array(climbCenterSectorSchema);
 

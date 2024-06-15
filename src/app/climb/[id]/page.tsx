@@ -1,8 +1,8 @@
 import { climbingCenterSchema } from "@/app/api/climb-center/schema";
-import CooltimeSection from "@/components/climb/CooltimeSection";
-import VisitRecordSection from "@/components/climb/VisitRecordSection";
-import { VisitRecordProvider } from "@/contexts/VisitRecordContext";
 import { createClient } from "@/utils/supabase/server";
+import CooltimeSection from "./components/CooltimeSection";
+import VisitRecordSection from "./components/VisitRecordSection";
+import { VisitRecordProvider } from "./contexts/VisitRecordContext";
 
 const getClimbCenter = async (id: string) => {
   const supabase = createClient();

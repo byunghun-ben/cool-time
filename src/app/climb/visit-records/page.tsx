@@ -1,6 +1,6 @@
 import { climbingCenterSchema } from "@/app/api/climb-center/schema";
-import VisitedCentersSection from "@/components/climb/VisitedCentersSection";
 import { successResponseSchema } from "@/lib/apiResponse";
+import VisitedCentersSection from "./components/VisitedCentersSection";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 

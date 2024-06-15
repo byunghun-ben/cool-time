@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import useVisitRecordContext from "@/hooks/useVisitRecordContext";
 import { useParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import useVisitRecordContext from "../hooks/useVisitRecordContext";
 import CreateVisitRecordForm from "./CreateVisitRecordForm";
 
 const VisitRecordSection = () => {
@@ -36,6 +36,56 @@ const VisitRecordSection = () => {
       </div>
 
       <CreateVisitRecordForm />
+      {/* <Form {...form}>
+        <form
+          className="flex flex-col gap-4 items-start"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="visitDate"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>방문일</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-[240px] pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "yyyy-MM-dd")
+                        ) : (
+                          <span>방문일을 입력해주세요.</span>
+                        )}
+                        <CalendarIcon className="h-4 w-4 ml-auto opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) =>
+                        date > new Date() || date < new Date("1900-01-01")
+                      }
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </FormItem>
+            )}
+          />
+          <Button type="submit" variant="secondary">
+            저장하기
+          </Button>
+        </form>
+      </Form> */}
 
       <ul className="grid grid-cols-1 gap-2">
         {thisCenterVisitRecords.map((visitRecord) => (
