@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import useVisitRecordContext from "../hooks/useVisitRecordContext";
+import useVisitRecordContext from "../../hooks/useVisitRecordContext";
 import CreateVisitRecordForm from "./CreateVisitRecordForm";
 
 const VisitRecordSection = () => {

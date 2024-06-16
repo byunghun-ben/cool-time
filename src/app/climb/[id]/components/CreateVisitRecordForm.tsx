@@ -22,7 +22,7 @@ import { useParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useVisitRecordContext from "../hooks/useVisitRecordContext";
+import useVisitRecordContext from "../../hooks/useVisitRecordContext";
 
 const formSchema = z.object({
   visitDate: z.date(),

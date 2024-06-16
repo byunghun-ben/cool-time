@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { getClimbCenter } from "../apis";
 import CooltimeSection from "./components/CooltimeSection";
 import VisitRecordSection from "./components/VisitRecordSection";
-import { VisitRecordProvider } from "./contexts/VisitRecordContext";
 
 type Props = {
   params: {
@@ -19,17 +18,15 @@ const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
   }
 
   return (
-    <VisitRecordProvider>
-      <div className="flex flex-1 flex-col overflow-x-hidden">
-        <section className="flex flex-col gap-6 p-6">
-          <h1 className="text-2xl font-black">{climbCenter.name}</h1>
-        </section>
+    <div className="flex flex-1 flex-col overflow-x-hidden">
+      <section className="flex flex-col gap-6 p-6">
+        <h1 className="text-2xl font-black">{climbCenter.name}</h1>
+      </section>
 
-        <VisitRecordSection />
+      <VisitRecordSection />
 
-        <CooltimeSection sectors={climbCenter.sectors} />
-      </div>
-    </VisitRecordProvider>
+      <CooltimeSection sectors={climbCenter.sectors} />
+    </div>
   );
 };
 
