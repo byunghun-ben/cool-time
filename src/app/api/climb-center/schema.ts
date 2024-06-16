@@ -2,19 +2,28 @@ import { z } from "zod";
 
 export const climbCenterSectorSettingSchema = z.object({
   id: z.number(),
-  sector_id: z.number(),
-  setting_date: z.string(),
+  sectorId: z.number(),
+  settingDate: z.string(),
 });
 
 export const climbCenterSectorSchema = z.object({
   id: z.number(),
   name: z.string(),
-  climb_center_id: z.number(),
-  climb_center_sector_setting: z.array(climbCenterSectorSettingSchema),
+  climbCenterId: z.number(),
+  settingHistory: z.array(climbCenterSectorSettingSchema),
+});
+
+export const climbBrandSchema = z.object({
+  id: z.number(),
+  name: z.string(),
 });
 
 export const climbingCenterSchema = z.object({
   id: z.number(),
   name: z.string(),
-  climb_center_sector: z.array(climbCenterSectorSchema),
+  address: z.string(),
+  brandId: z.number(),
+  instagramUrl: z.string(),
+  sectors: z.array(climbCenterSectorSchema),
+  brand: climbBrandSchema,
 });

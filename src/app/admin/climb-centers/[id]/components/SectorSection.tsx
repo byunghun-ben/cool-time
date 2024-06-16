@@ -53,7 +53,7 @@ const SectorSection = ({ climbCenter }: Props) => {
       <h3 className="text-lg font-black text-slate-700">섹터</h3>
 
       <ul className="grid grid-cols-2 gap-4">
-        {climbCenter.climb_center_sector.map((sector) => (
+        {climbCenter.sectors.map((sector) => (
           <li
             key={sector.id}
             className="flex flex-col gap-2 border border-slate-200 p-3"
@@ -63,10 +63,10 @@ const SectorSection = ({ climbCenter }: Props) => {
             <div className="flex flex-col gap-2">
               <h4 className="font-bold text-slate-500">세팅 기록</h4>
               <ul>
-                {sector.climb_center_sector_setting.map((setting) => (
+                {sector.settingHistory.map((setting) => (
                   <li key={setting.id} className="flex items-center">
                     <span className="flex-1 text-sm">
-                      {setting.setting_date}
+                      {setting.settingDate}
                     </span>
                     <Button
                       onClick={handleClickDelete(setting.id)}

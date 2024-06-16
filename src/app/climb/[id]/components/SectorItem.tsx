@@ -79,8 +79,8 @@ type SectorItemProps = {
 };
 
 const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
-  const settingDates = sector.climb_center_sector_setting
-    .map((setting) => new Date(setting.setting_date))
+  const settingDates = sector.settingHistory
+    .map((setting) => new Date(setting.settingDate))
     .sort();
 
   // 오늘을 기준으로 가장 최근 세팅 날짜

@@ -27,7 +27,7 @@ const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
 
         <VisitRecordSection />
 
-        <CooltimeSection sectors={climbCenter.climb_center_sector} />
+        <CooltimeSection sectors={climbCenter.sectors} />
       </div>
     </VisitRecordProvider>
   );

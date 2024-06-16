@@ -16,19 +16,6 @@ const ClimbCenterDetailAdminPage = async ({ params }: Props) => {
     return notFound();
   }
 
-  const climbCenterSectors = climbCenter.climb_center_sector.map((sector) => {
-    return {
-      id: sector.id,
-      name: sector.name,
-      settingHistory: sector.climb_center_sector_setting.map((setting) => {
-        return {
-          id: setting.id,
-          settingDate: new Date(setting.setting_date),
-        };
-      }),
-    };
-  });
-
   return (
     <div>
       <section className="flex flex-col gap-2 p-6">

@@ -17,12 +17,26 @@ export const GET = async (request: Request, { params }: Parmas) => {
     .from("climb_center")
     .select(
       `
-    *,
-    climb_center_sector (
-      *,
-      climb_center_sector_setting (*)
-    )
-  `
+      id,
+      name,
+      address,
+      brandId:brand_id,
+      instagramUrl:instagram_url,
+      sectors:climb_center_sector (
+        id,
+        name,
+        climbCenterId:climb_center_id,
+        settingHistory:climb_center_sector_setting (
+          id,
+          sectorId:sector_id,
+          settingDate:setting_date
+        )
+      ),
+      brand:climb_brand (
+        id,
+        name
+      )
+    `
     )
     .eq("id", climbCenterId)
     .single();
