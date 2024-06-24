@@ -62,7 +62,7 @@ const SectorSection = ({ climbCenter }: Props) => {
 
             <div className="flex flex-col gap-2">
               <h4 className="font-bold text-slate-500">세팅 기록</h4>
-              <ul>
+              <ul className="flex flex-col">
                 {sector.settingHistory.map((setting) => (
                   <li key={setting.id} className="flex items-center">
                     <span className="flex-1 text-sm">

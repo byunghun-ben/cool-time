@@ -16,12 +16,12 @@ const ClimbLayout = ({ children }: { children: ReactNode }) => {
               전체 암장 보기
             </Link>
             {/* 내가 방문한 암장 보기 */}
-            <Link
+            {/* <Link
               href="/climb/visit-records"
               className="text-sm font-bold text-slate-700 ml-4"
             >
               내 암장 보기
-            </Link>
+            </Link> */}
           </div>
         </header>
         {children}

@@ -1,5 +1,7 @@
 import { climbingCenterSchema } from "@/app/api/climb-center/schema";
 import { successResponseSchema } from "@/lib/apiResponse";
+import { VisitRecordSchema } from "@/schemas";
+import { createClient } from "@/utils/supabase/server";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
@@ -40,4 +42,28 @@ export const getClimbCenter = async (id: number) => {
     console.error(error);
     return null;
   }
+};
+
+export const getVisitRecords = async () => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from("climb_center_visit").select(
+    `
+      id,
+      climbCenterId:climb_center_id,
+      userId:user_id,
+      visitDate:visit_date,
+      climbCenter:climb_center(
+        id,
+        name
+      )
+    `
+  );
+
+  if (error) {
+    console.error("supabase Error", error);
+    return [];
+  }
+
+  return VisitRecordSchema.array().parse(data);
 };

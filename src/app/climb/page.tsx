@@ -1,12 +1,17 @@
-import { getClimbCenters } from "./apis";
-import VisitRecordSection from "./components/VisitRecordSection";
+import { getClimbCenters, getVisitRecords } from "./apis";
+import ClimbCenterSection from "./components/ClimbCenterSection";
 
 const ClimbPage = async () => {
   const climbCenters = await getClimbCenters();
+  const visitRecords = await getVisitRecords();
 
   return (
     <div className="flex flex-1 flex-col overflow-x-hidden">
-      <VisitRecordSection />
+      {/* <VisitRecordSection
+        climbCenters={climbCenters}
+        visitRecords={visitRecords}
+      /> */}
+      <ClimbCenterSection climbCenters={climbCenters} />
     </div>
   );
 };

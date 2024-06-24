@@ -53,6 +53,15 @@ export const GET = async (request: Request, { params }: Parmas) => {
 
   try {
     const data = getResponseSchema.parse(supabaseResponse.data);
+    // sectors의 settingHistory를 settingDate 기준으로 정렬한다.
+    data.sectors.forEach((sector) => {
+      sector.settingHistory.sort((a, b) => {
+        return (
+          new Date(b.settingDate).getTime() - new Date(a.settingDate).getTime()
+        );
+      });
+    });
+
     return createSuccessResponse(data, "암장 정보를 성공적으로 불러왔습니다.");
   } catch (error) {
     return createErrorResponse(

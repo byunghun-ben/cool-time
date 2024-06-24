@@ -84,7 +84,7 @@ const AddSectorSettingDialog = ({ sector }: Props) => {
   const onSubmit = useCallback(
     async (formValues: FormValues) => {
       const settingDate = format(formValues.settingDate, "yyyy-MM-dd");
-      createSectorSetting(sector.id, settingDate);
+      await createSectorSetting(sector.id, settingDate);
       form.reset();
       setOpen(false);
       router.refresh();
