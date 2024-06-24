@@ -5,22 +5,29 @@ import { createClient } from "@/utils/supabase/server";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export const getClimbCenters = async () => {
-  const res = await fetch(`${BASE_URL}/api/climb-center`);
-
-  if (!res.ok) {
-    console.error("Failed to fetch climb centers");
-    return [];
-  }
-
   try {
-    const body = await res.json();
-    const parsedBody = successResponseSchema.parse(body);
-    const data = climbingCenterSchema.array().parse(parsedBody.data);
+    const res = await fetch(`${BASE_URL}/api/climb-center`, {
+      cache: "no-cache",
+    });
 
-    return data;
+    if (!res.ok) {
+      console.error("Failed to fetch climb centers");
+      return [];
+    }
+
+    try {
+      const body = await res.json();
+      const parsedBody = successResponseSchema.parse(body);
+      const data = climbingCenterSchema.array().parse(parsedBody.data);
+
+      return data;
+    } catch (error) {
+      console.error(error);
+
+      return [];
+    }
   } catch (error) {
-    console.error(error);
-
+    console.error("fetch Error");
     return [];
   }
 };

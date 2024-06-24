@@ -10,18 +10,18 @@ import AddSectorSettingDialog from "./AddSectorSettingDialog";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 const deleteClimbSectorSetting = async (climbSectorSettingId: number) => {
-  const response = await fetch(
-    `${BASE_URL}/api/climb-sector-setting/${climbSectorSettingId}`,
-    {
-      method: "DELETE",
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to delete climb sector setting");
-  }
-
   try {
+    const response = await fetch(
+      `${BASE_URL}/api/climb-sector-setting/${climbSectorSettingId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to delete climb sector setting");
+    }
+
     const body = await response.json();
     return body;
   } catch (error) {
