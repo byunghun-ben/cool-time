@@ -1,12 +1,11 @@
 "use client";
 
-import { climbingCenterSchema } from "@/app/api/climb-center/schema";
 import { Button } from "@/components/ui/button";
+import { ClimbCenter } from "@/types";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { z } from "zod";
-import AddSectorSettingDialog from "./AddSectorSettingDialog";
 import AddSectorForm from "./AddSectorForm";
+import AddSectorSettingDialog from "./AddSectorSettingDialog";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
@@ -30,8 +29,6 @@ const deleteClimbSectorSetting = async (climbSectorSettingId: number) => {
     return null;
   }
 };
-
-type ClimbCenter = z.infer<typeof climbingCenterSchema>;
 
 type Props = {
   climbCenter: ClimbCenter;

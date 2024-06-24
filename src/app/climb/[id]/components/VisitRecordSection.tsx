@@ -5,8 +5,13 @@ import { useParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import useVisitRecordContext from "../../hooks/useVisitRecordContext";
 import CreateVisitRecordForm from "./CreateVisitRecordForm";
+import { ClimbCenter } from "@/types";
 
-const VisitRecordSection = () => {
+type Props = {
+  climbCenter: ClimbCenter;
+};
+
+const VisitRecordSection = ({ climbCenter }: Props) => {
   const params = useParams<{ id: string }>();
   const climbCenterId = Number(params.id);
   const { visitRecords, removeVisitRecord } = useVisitRecordContext();
@@ -14,11 +19,15 @@ const VisitRecordSection = () => {
   const thisCenterVisitRecords = useMemo(() => {
     return visitRecords
       .filter((visitRecord) => visitRecord.climbCenterId === climbCenterId)
-      .sort((a, b) => b.visitDate.getTime() - a.visitDate.getTime());
+      .sort((a, b) => {
+        return (
+          new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime()
+        );
+      });
   }, [visitRecords, climbCenterId]);
 
   const handleRemoveVisitRecord = useCallback(
-    (recordId: string) => () => {
+    (recordId: number) => () => {
       removeVisitRecord(recordId);
     },
     [removeVisitRecord]
@@ -35,57 +44,7 @@ const VisitRecordSection = () => {
         </p>
       </div>
 
-      <CreateVisitRecordForm />
-      {/* <Form {...form}>
-        <form
-          className="flex flex-col gap-4 items-start"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
-          <FormField
-            control={form.control}
-            name="visitDate"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>방문일</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "yyyy-MM-dd")
-                        ) : (
-                          <span>방문일을 입력해주세요.</span>
-                        )}
-                        <CalendarIcon className="h-4 w-4 ml-auto opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </FormItem>
-            )}
-          />
-          <Button type="submit" variant="secondary">
-            저장하기
-          </Button>
-        </form>
-      </Form> */}
+      <CreateVisitRecordForm climbCenter={climbCenter} />
 
       <ul className="grid grid-cols-1 gap-2">
         {thisCenterVisitRecords.map((visitRecord) => (
@@ -93,7 +52,7 @@ const VisitRecordSection = () => {
             key={visitRecord.id}
             className="flex items-center justify-between bg-white rounded-lg p-3"
           >
-            <span>{visitRecord.visitDate.toLocaleDateString()}</span>
+            <span>{visitRecord.visitDate}</span>
             <Button
               variant="ghost"
               size="sm"

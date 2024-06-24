@@ -23,7 +23,7 @@ const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
         <h1 className="text-2xl font-black">{climbCenter.name}</h1>
       </section>
 
-      <VisitRecordSection />
+      <VisitRecordSection climbCenter={climbCenter} />
 
       <CooltimeSection sectors={climbCenter.sectors} />
     </div>

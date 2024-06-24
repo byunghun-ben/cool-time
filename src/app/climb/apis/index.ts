@@ -1,6 +1,5 @@
-import { climbingCenterSchema } from "@/app/api/climb-center/schema";
 import { successResponseSchema } from "@/lib/apiResponse";
-import { VisitRecordSchema } from "@/schemas";
+import { VisitRecordSchema, climbingCenterSchema } from "@/schemas";
 import { createClient } from "@/utils/supabase/server";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";

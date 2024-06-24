@@ -1,12 +1,8 @@
 "use client";
 
-import { climbingCenterSchema } from "@/app/api/climb-center/schema";
-import { VisitRecord } from "@/types";
+import { ClimbCenter, VisitRecord } from "@/types";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { z } from "zod";
-
-type ClimbCenter = z.infer<typeof climbingCenterSchema>;
 
 type Props = {
   climbCenters: ClimbCenter[];

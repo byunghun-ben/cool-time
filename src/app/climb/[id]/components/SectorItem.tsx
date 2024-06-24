@@ -1,6 +1,6 @@
 "use client";
 
-import { climbCenterSectorSchema } from "@/app/api/climb-center/schema";
+import { ClimbCenterSector } from "@/types";
 import { useMemo } from "react";
 import { z } from "zod";
 
@@ -74,7 +74,7 @@ const getSectorStatus = (
 };
 
 type SectorItemProps = {
-  sector: z.infer<typeof climbCenterSectorSchema>;
+  sector: ClimbCenterSector;
   lastVisitDate: Date | undefined;
 };
 

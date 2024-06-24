@@ -1,6 +1,6 @@
 import { createErrorResponse, createSuccessResponse } from "@/lib/apiResponse";
+import { climbingCenterSchema } from "@/schemas";
 import { createClient } from "@/utils/supabase/server";
-import { climbingCenterSchema } from "../schema";
 
 type Parmas = {
   params: {

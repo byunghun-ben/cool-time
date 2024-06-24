@@ -1,6 +1,5 @@
 "use client";
 
-import { climbCenterSectorSchema } from "@/app/api/climb-center/schema";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -26,6 +25,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { ClimbCenterSector } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -68,10 +68,8 @@ type FormValues = z.infer<typeof formSchema>;
 
 const resolver = zodResolver(formSchema);
 
-type Sector = z.infer<typeof climbCenterSectorSchema>;
-
 type Props = {
-  sector: Sector;
+  sector: ClimbCenterSector;
 };
 
 const AddSectorSettingDialog = ({ sector }: Props) => {

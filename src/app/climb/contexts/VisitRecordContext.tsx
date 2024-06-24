@@ -13,7 +13,7 @@ type VisitRecordContextType = {
   visitRecords: VisitRecord[];
   setVisitRecords: (visitRecords: VisitRecord[]) => void;
   createVisitRecord: (visitRecord: VisitRecord) => void;
-  removeVisitRecord: (visitRecordId: string) => void;
+  removeVisitRecord: (visitRecordId: number) => void;
 };
 
 export const VisitRecordContext = createContext<VisitRecordContextType>({
@@ -36,7 +36,7 @@ export const VisitRecordProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const removeVisitRecord = useCallback(
-    (visitRecordId: string) => {
+    (visitRecordId: number) => {
       const newVisitRecords = visitRecords.filter(
         (visitRecord) => visitRecord.id !== visitRecordId
       );
@@ -56,7 +56,8 @@ export const VisitRecordProvider = ({ children }: { children: ReactNode }) => {
       ...visitRecord,
       visitDate: new Date(visitRecord.visitDate),
     }));
-    setVisitRecords(visitRecords);
+    console.log(visitRecords);
+    setVisitRecords(parsedVisitRecords);
   }, []);
 
   return (

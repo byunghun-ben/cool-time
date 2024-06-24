@@ -14,11 +14,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { cn, getRandomNumber } from "@/lib/utils";
+import { ClimbCenter } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -32,32 +32,39 @@ type FormValues = z.infer<typeof formSchema>;
 
 const resolver = zodResolver(formSchema);
 
-const CreateVisitRecordForm = () => {
-  const params = useParams<{ id: string }>();
-  const climbCenterId = Number(params.id);
-  const { visitRecords, createVisitRecord, removeVisitRecord } =
-    useVisitRecordContext();
+type Props = {
+  climbCenter: ClimbCenter;
+};
+
+const CreateVisitRecordForm = ({ climbCenter }: Props) => {
+  const { createVisitRecord } = useVisitRecordContext();
 
   const form = useForm<FormValues>({
     resolver,
   });
 
-  const onSubmit = useCallback(
+  const onSubmitValid = useCallback(
     (values: FormValues) => {
+      const id = getRandomNumber();
+
       createVisitRecord({
-        id: String(Date.now()),
-        climbCenterId,
-        visitDate: values.visitDate,
+        id,
+        climbCenterId: climbCenter.id,
+        climbCenter: {
+          id: climbCenter.id,
+          name: climbCenter.name,
+        },
+        visitDate: format(values.visitDate, "yyyy-MM-dd"),
       });
     },
-    [createVisitRecord, climbCenterId]
+    [createVisitRecord, climbCenter]
   );
 
   return (
     <Form {...form}>
       <form
         className="flex flex-col gap-4 items-start"
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmitValid)}
       >
         <FormField
           control={form.control}

@@ -1,6 +1,5 @@
 "use client";
 
-import { climbingCenterSchema } from "@/app/api/climb-center/schema";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -32,8 +31,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn, todayWithoutTime } from "@/lib/utils";
-import { VisitRecord } from "@/types";
+import { cn } from "@/lib/utils";
+import { ClimbCenter, VisitRecord } from "@/types";
 import { createClient } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -41,8 +40,6 @@ import { CalendarIcon, PlusIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-type ClimbCenter = z.infer<typeof climbingCenterSchema>;
 
 type Props = {
   climbCenters: ClimbCenter[];
@@ -93,7 +90,7 @@ const AddVisitRecordDialog = ({
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      visitDate: todayWithoutTime(),
+      visitDate: new Date(),
       userId: "9105f83f-9164-48f4-9033-8ec1f3e97107",
     },
   });

@@ -1,7 +1,7 @@
 import { createErrorResponse, createSuccessResponse } from "@/lib/apiResponse";
+import { climbingCenterSchema } from "@/schemas";
 import { createClient } from "@/utils/supabase/server";
 import { z } from "zod";
-import { climbingCenterSchema } from "./schema";
 
 export const GET = async (request: Request) => {
   const responseSchema = z.array(climbingCenterSchema);

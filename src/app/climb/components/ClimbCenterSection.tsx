@@ -1,10 +1,7 @@
 "use client";
 
-import { climbingCenterSchema } from "@/app/api/climb-center/schema";
+import { ClimbCenter } from "@/types";
 import Link from "next/link";
-import { z } from "zod";
-
-type ClimbCenter = z.infer<typeof climbingCenterSchema>;
 
 type Props = {
   climbCenters: ClimbCenter[];
@@ -20,7 +17,7 @@ const ClimbCenterSection = ({ climbCenters }: Props) => {
               className="flex items-center justify-between p-4 bg-white rounded-md hover:bg-slate-100"
               href={`/climb/${climbCenter.id}`}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1">
                 <span className="text-lg font-bold">{climbCenter.name}</span>
                 <span className="text-sm text-gray-500">
                   {climbCenter.address}
