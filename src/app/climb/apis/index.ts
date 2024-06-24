@@ -32,12 +32,14 @@ export const getClimbCenter = async (id: number) => {
     throw new Error("Failed to fetch climb center");
   }
 
+  const body = await response.json();
+
   try {
-    const body = await response.json();
     const parsedBody = successResponseSchema.parse(body);
     const data = climbingCenterSchema.parse(parsedBody.data);
     return data;
   } catch (error) {
+    console.log("Error parsing response", body);
     console.error(error);
     return null;
   }
