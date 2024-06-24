@@ -33,12 +33,13 @@ export const getClimbCenters = async () => {
 };
 
 export const getClimbCenter = async (id: number) => {
-  const response = await fetch(`${BASE_URL}/api/climb-center/${id}`);
+  const response = await fetch(`${BASE_URL}/api/climb-center/${id}`, {
+    cache: "no-cache",
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch climb center");
   }
-
   const body = await response.json();
 
   try {
