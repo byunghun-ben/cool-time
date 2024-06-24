@@ -1,14 +1,10 @@
 "use client";
 
-import { climbCenterSectorSchema } from "@/schemas";
 import { ClimbCenterSector } from "@/types";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
-import { z } from "zod";
 import useVisitRecordContext from "../../hooks/useVisitRecordContext";
 import SectorItem from "./SectorItem";
-
-const climbCenterSectorsSchema = z.array(climbCenterSectorSchema);
 
 type Props = {
   sectors: ClimbCenterSector[];
@@ -20,7 +16,7 @@ const CooltimeSection = ({ sectors }: Props) => {
   // 최근 방문일
   const { visitRecords } = useVisitRecordContext();
 
-  const lastVisitDate = useMemo<Date | undefined>(() => {
+  const lastVisitDate = useMemo<string | undefined>(() => {
     const visitRecord = visitRecords
       .filter((visitRecord) => visitRecord.climbCenterId === climbCenterId)
       .sort((a, b) => {
@@ -29,7 +25,7 @@ const CooltimeSection = ({ sectors }: Props) => {
         );
       })[0];
 
-    return visitRecord ? new Date(visitRecord.visitDate) : undefined;
+    return visitRecord?.visitDate;
   }, [visitRecords, climbCenterId]);
 
   return (

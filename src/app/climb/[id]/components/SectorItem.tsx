@@ -1,8 +1,8 @@
 "use client";
 
 import { ClimbCenterSector } from "@/types";
+import { format, isFuture, isPast } from "date-fns";
 import { useMemo } from "react";
-import { z } from "zod";
 
 // 1.	이미 방문했던 벽: Visited
 // 2.	아직 타지 못한 벽: Not Climbed
@@ -27,45 +27,25 @@ const SECTOR_STATUS_COLOR = {
 type SectorStatus = (typeof SECTOR_STATUS)[keyof typeof SECTOR_STATUS];
 
 const getSectorStatus = (
-  sectorSettingDate: Date | undefined,
-  lastVisitDate: Date | undefined
+  sectorSettingDate: string | undefined,
+  lastVisitDate: string | undefined
 ): SectorStatus => {
-  const today = new Date();
+  const today = format(new Date(), "yyyy-MM-dd");
 
-  const todayWithoutTime = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  );
-  const sectorSettingDateWithoutTime = sectorSettingDate
-    ? new Date(
-        sectorSettingDate.getFullYear(),
-        sectorSettingDate.getMonth(),
-        sectorSettingDate.getDate()
-      )
-    : null;
-  const lastVisitDateWithoutTime = lastVisitDate
-    ? new Date(
-        lastVisitDate.getFullYear(),
-        lastVisitDate.getMonth(),
-        lastVisitDate.getDate()
-      )
-    : null;
-
-  if (!sectorSettingDateWithoutTime) {
-    return SECTOR_STATUS.NOT_SET;
-  }
-
-  if (todayWithoutTime.getTime() === sectorSettingDateWithoutTime.getTime()) {
+  if (today === sectorSettingDate) {
     return SECTOR_STATUS.SETTING_IN_PROGRESS;
   }
 
-  if (!lastVisitDateWithoutTime) {
+  if (!lastVisitDate) {
     return SECTOR_STATUS.NOT_CLIMBED;
   }
 
+  if (!sectorSettingDate) {
+    return SECTOR_STATUS.NOT_SET;
+  }
+
   if (
-    lastVisitDateWithoutTime.getTime() >= sectorSettingDateWithoutTime.getTime()
+    new Date(lastVisitDate).getTime() >= new Date(sectorSettingDate).getTime()
   ) {
     return SECTOR_STATUS.VISITED;
   }
@@ -75,36 +55,33 @@ const getSectorStatus = (
 
 type SectorItemProps = {
   sector: ClimbCenterSector;
-  lastVisitDate: Date | undefined;
+  lastVisitDate: string | undefined;
 };
 
 const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
   const settingDates = sector.settingHistory
-    .map((setting) => new Date(setting.settingDate))
-    .sort();
+    .map((setting) => setting.settingDate)
+    .sort((a, b) => {
+      return new Date(b).getTime() - new Date(a).getTime();
+    });
 
   // 오늘을 기준으로 가장 최근 세팅 날짜
   const recentSettingDate = useMemo(() => {
-    const todayDate = new Date();
-    const todayWithoutTime = new Date(
-      todayDate.getFullYear(),
-      todayDate.getMonth(),
-      todayDate.getDate()
-    );
-
     return settingDates.filter((settingDate) => {
-      return settingDate <= todayWithoutTime;
+      return isPast(settingDate);
     })[0];
   }, [settingDates]);
 
   // 오늘을 기준으로 가장 가까운 세팅 날짜
   const nextSettingDate = useMemo(() => {
-    const todayDate = new Date();
-    return settingDates.find((settingDate) => settingDate > todayDate);
+    return settingDates.filter((settingDate) => {
+      return isFuture(settingDate);
+    })[0];
   }, [settingDates]);
 
   const status = getSectorStatus(recentSettingDate, lastVisitDate);
 
+  console.log(recentSettingDate, nextSettingDate, status);
   return (
     <li className="">
       <div
@@ -130,17 +107,10 @@ const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
           </span>
         )}
 
-        {/* <div className="flex flex-col">
-          <span className="text-xs text-slate-500">쿨타임</span>
-          <span className="text-sm text-slate-700">{cooltime}일</span>
-        </div> */}
-
         <div className="flex flex-col">
           <span className="text-xs text-slate-500">최근 세팅 날짜</span>
           {recentSettingDate && (
-            <span className="text-sm text-slate-700">
-              {recentSettingDate.toLocaleDateString()}
-            </span>
+            <span className="text-sm text-slate-700">{recentSettingDate}</span>
           )}
           {!recentSettingDate && (
             <span className="text-sm text-slate-700">확인할 수 없어요 :(</span>
@@ -150,9 +120,7 @@ const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
         <div className="flex flex-col">
           <span className="text-xs text-slate-500">다음 세팅 날짜</span>
           {nextSettingDate && (
-            <span className="text-sm text-slate-700">
-              {nextSettingDate.toLocaleDateString()}
-            </span>
+            <span className="text-sm text-slate-700">{nextSettingDate}</span>
           )}
           {!nextSettingDate && (
             <span className="text-sm text-slate-700">확인할 수 없어요 :(</span>
