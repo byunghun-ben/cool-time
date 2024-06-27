@@ -15,7 +15,7 @@ const Nav = ({ userId }: Props) => {
   };
 
   return (
-    <header className="sticky top-0 h-12 bg-white border-b px-4 flex items-center justify-between">
+    <header className="sticky top-0 z-50 h-12 bg-white border-b px-4 flex items-center justify-between">
       <Link href="/climb" className="font-black text-slate-700">
         클(라이밍 쿨)타임
       </Link>
