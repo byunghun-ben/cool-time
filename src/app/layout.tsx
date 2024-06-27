@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import { Analytics } from "@vercel/analytics/react";
 
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 const bodyClassName = cn(
@@ -29,6 +30,7 @@ export default async function RootLayout({
       <body className={bodyClassName}>
         <Providers>{children}</Providers>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
