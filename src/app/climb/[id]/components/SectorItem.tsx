@@ -81,7 +81,6 @@ const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
 
   const status = getSectorStatus(recentSettingDate, lastVisitDate);
 
-  console.log(recentSettingDate, nextSettingDate, status);
   return (
     <li className="">
       <div

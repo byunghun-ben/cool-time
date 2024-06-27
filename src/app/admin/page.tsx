@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getClimbCenters } from "../climb/apis";
+import { getClimbCenters } from "../climb/apis/server";
 import AddClimbCenterForm from "./components/AddClimbCenterForm";
 
 const AdminPage = async () => {

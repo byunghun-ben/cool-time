@@ -1,20 +1,19 @@
 "use client";
 
-import { ClimbCenterSector } from "@/types";
+import { ClimbCenterSector, VisitRecord } from "@/types";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
-import useVisitRecordContext from "../../hooks/useVisitRecordContext";
 import SectorItem from "./SectorItem";
 
 type Props = {
   sectors: ClimbCenterSector[];
+  visitRecords: VisitRecord[];
 };
 
-const CooltimeSection = ({ sectors }: Props) => {
+const CooltimeSection = ({ sectors, visitRecords }: Props) => {
   const params = useParams<{ id: string }>();
   const climbCenterId = Number(params.id);
   // 최근 방문일
-  const { visitRecords } = useVisitRecordContext();
 
   const lastVisitDate = useMemo<string | undefined>(() => {
     const visitRecord = visitRecords

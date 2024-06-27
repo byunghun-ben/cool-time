@@ -14,15 +14,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn, getRandomNumber } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { ClimbCenter } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useVisitRecordContext from "../../hooks/useVisitRecordContext";
+import { createVisitRecord } from "../../apis/client";
 
 const formSchema = z.object({
   visitDate: z.date(),
@@ -30,34 +31,35 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const resolver = zodResolver(formSchema);
-
 type Props = {
   climbCenter: ClimbCenter;
+  userId: string;
 };
 
-const CreateVisitRecordForm = ({ climbCenter }: Props) => {
-  const { createVisitRecord } = useVisitRecordContext();
+const CreateVisitRecordForm = ({ climbCenter, userId }: Props) => {
+  const { refresh } = useRouter();
 
   const form = useForm<FormValues>({
-    resolver,
+    resolver: zodResolver(formSchema),
   });
+  const { reset } = form;
 
   const onSubmitValid = useCallback(
-    (values: FormValues) => {
-      const id = getRandomNumber();
+    async ({ visitDate }: FormValues) => {
+      try {
+        await createVisitRecord({
+          climbCenterId: climbCenter.id,
+          userId,
+          visitDate: format(visitDate, "yyyy-MM-dd"),
+        });
 
-      createVisitRecord({
-        id,
-        climbCenterId: climbCenter.id,
-        climbCenter: {
-          id: climbCenter.id,
-          name: climbCenter.name,
-        },
-        visitDate: format(values.visitDate, "yyyy-MM-dd"),
-      });
+        reset();
+        refresh();
+      } catch (error) {
+        console.error(error);
+      }
     },
-    [createVisitRecord, climbCenter]
+    [userId, climbCenter.id, reset, refresh]
   );
 
   return (

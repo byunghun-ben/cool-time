@@ -1,4 +1,4 @@
-import { getClimbCenter } from "@/app/climb/apis";
+import { getClimbCenter } from "@/app/climb/apis/server";
 import { notFound } from "next/navigation";
 import SectorSection from "./components/SectorSection";
 

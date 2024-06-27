@@ -1,5 +1,6 @@
+import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
-import { getClimbCenter } from "../apis";
+import { getClimbCenter, getVisitRecords } from "../apis/server";
 import CooltimeSection from "./components/CooltimeSection";
 import VisitRecordSection from "./components/VisitRecordSection";
 
@@ -11,7 +12,13 @@ type Props = {
 
 const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
   const climbCenterId = Number(id);
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const climbCenter = await getClimbCenter(climbCenterId);
+  const visitRecords = await getVisitRecords({ userId: user?.id });
 
   if (!climbCenter) {
     return notFound();
@@ -23,9 +30,16 @@ const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
         <h1 className="text-2xl font-black">{climbCenter.name}</h1>
       </section>
 
-      <VisitRecordSection climbCenter={climbCenter} />
+      <VisitRecordSection
+        climbCenter={climbCenter}
+        userId={user?.id}
+        visitRecords={visitRecords}
+      />
 
-      <CooltimeSection sectors={climbCenter.sectors} />
+      <CooltimeSection
+        sectors={climbCenter.sectors}
+        visitRecords={visitRecords}
+      />
     </div>
   );
 };

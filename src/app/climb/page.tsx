@@ -1,9 +1,9 @@
-import { getClimbCenters, getVisitRecords } from "./apis";
+import { getClimbCenters } from "./apis/server";
 import ClimbCenterSection from "./components/ClimbCenterSection";
 
 const ClimbPage = async () => {
   const climbCenters = await getClimbCenters();
-  const visitRecords = await getVisitRecords();
+  // const visitRecords = await getVisitRecords();
 
   return (
     <div className="flex flex-1 flex-col overflow-x-hidden">
