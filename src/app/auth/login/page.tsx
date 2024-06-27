@@ -2,16 +2,16 @@
 
 import { ArrowRightIcon } from "@heroicons/react/16/solid";
 import { createClient } from "../../../utils/supabase/client";
+import { getURL } from "@/lib/utils";
 
 const LoginPage = () => {
   const signInWithKakao = async () => {
-    console.log("signInWithKakao", window.location.origin);
     const supabase = createClient();
 
     await supabase.auth.signInWithOAuth({
       provider: "kakao",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: getURL(),
       },
     });
   };

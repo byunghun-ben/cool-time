@@ -112,8 +112,6 @@ const AddVisitRecordDialog = ({
       console.error("supabase Error", error);
       return;
     }
-
-    console.log("data", data);
   }, []);
 
   return (

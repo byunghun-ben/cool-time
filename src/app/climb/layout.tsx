@@ -8,15 +8,11 @@ const ClimbLayout = async ({ children }: { children: ReactNode }) => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log("user", user?.id);
-
   return (
     <div className="flex min-h-full flex-1 flex-col">
       <Nav userId={user?.id} />
       {children}
     </div>
-    // <VisitRecordProvider>
-    // {/* </VisitRecordProvider> */}
   );
 };
 

@@ -4,6 +4,5 @@ import { redirect } from "next/navigation";
 export default function Home() {
   const headersList = headers();
   const host = headersList.get("X-Forwarded-Host");
-  console.log("host: ", host);
   redirect(`/climb`);
 }
