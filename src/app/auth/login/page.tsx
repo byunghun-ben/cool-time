@@ -8,10 +8,12 @@ const LoginPage = () => {
   const signInWithKakao = async () => {
     const supabase = createClient();
 
+    const url = getURL();
+
     await supabase.auth.signInWithOAuth({
       provider: "kakao",
       options: {
-        redirectTo: getURL(),
+        redirectTo: `${url}/auth/callback`,
       },
     });
   };
