@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
@@ -27,6 +28,7 @@ export default async function RootLayout({
     <html lang="ko">
       <body className={bodyClassName}>
         <Providers>{children}</Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
