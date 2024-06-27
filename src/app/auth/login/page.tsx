@@ -3,16 +3,15 @@
 import { ArrowRightIcon } from "@heroicons/react/16/solid";
 import { createClient } from "../../../utils/supabase/client";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
 const LoginPage = () => {
   const signInWithKakao = async () => {
+    console.log("signInWithKakao", window.location.origin);
     const supabase = createClient();
 
     await supabase.auth.signInWithOAuth({
       provider: "kakao",
       options: {
-        redirectTo: `${BASE_URL}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
   };

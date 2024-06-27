@@ -1,6 +1,13 @@
-import { redirect } from "next/navigation";
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+import { headers } from "next/headers";
 
 export default function Home() {
-  redirect(`${BASE_URL}/climb`);
+  const headersList = headers();
+  const host = headersList.get("X-Forwarded-Host");
+  return (
+    <div>
+      <h1>Home</h1>
+      {/* <button onClick={handleClick}>Go to Climb</button> */}
+    </div>
+  );
+  // redirect(`${host}/climb`);
 }

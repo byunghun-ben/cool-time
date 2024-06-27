@@ -41,20 +41,16 @@ const AddSectorForm = ({ climbCenterId }: Props) => {
 
   const onSubmit = useCallback(
     async (values: FormValues) => {
-      const response = await fetch(
-        `
-      ${process.env.NEXT_PUBLIC_BASE_URL}/api/climb-center-sector`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            climbCenterId,
-            name: values.name,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`/api/climb-center-sector`, {
+        method: "POST",
+        body: JSON.stringify({
+          climbCenterId,
+          name: values.name,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         form.setError("root", {

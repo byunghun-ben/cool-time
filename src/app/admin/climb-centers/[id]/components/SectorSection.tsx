@@ -7,12 +7,10 @@ import { useCallback } from "react";
 import AddSectorForm from "./AddSectorForm";
 import AddSectorSettingDialog from "./AddSectorSettingDialog";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
 const deleteClimbSectorSetting = async (climbSectorSettingId: number) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/api/climb-sector-setting/${climbSectorSettingId}`,
+      `/api/climb-sector-setting/${climbSectorSettingId}`,
       {
         method: "DELETE",
       }
