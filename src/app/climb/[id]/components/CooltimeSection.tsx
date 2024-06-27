@@ -27,19 +27,48 @@ const CooltimeSection = ({ sectors, visitRecords }: Props) => {
     return visitRecord?.visitDate;
   }, [visitRecords, climbCenterId]);
 
+  const isEmpty = sectors.length === 0;
+
   return (
-    <section className="flex flex-col gap-6 px-6 py-10">
+    <section className="flex flex-col gap-4 p-6 bg-white rounded-lg">
       <h2 className="text-lg font-semibold">쿨타임</h2>
 
-      <ul className="grid grid-cols-2 gap-2">
-        {sectors.map((sector) => (
-          <SectorItem
-            key={sector.id}
-            sector={sector}
-            lastVisitDate={lastVisitDate}
-          />
-        ))}
-      </ul>
+      {isEmpty && (
+        <p className="text-slate-500 text-sm">
+          아직 이 암장에 대한 정보가 입력되지 않았어요. 금방 업데이트 할게요!
+        </p>
+      )}
+
+      {!isEmpty && (
+        <div className="">
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            <div className="flex items-center gap-1">
+              <div className="h-4 w-4 aspect-square rounded bg-blue-100" />
+              <span className="text-sm text-slate-500">
+                내 손길이 닿지 않은
+              </span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="h-4 w-4 aspect-square rounded bg-red-100" />
+              <span className="text-sm text-slate-500">내가 타본</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="h-4 w-4 aspect-square rounded bg-green-100" />
+              <span className="text-sm text-slate-500">세팅 중인</span>
+            </div>
+          </div>
+
+          <ul className="grid grid-cols-2 gap-2">
+            {sectors.map((sector) => (
+              <SectorItem
+                key={sector.id}
+                sector={sector}
+                lastVisitDate={lastVisitDate}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   );
 };

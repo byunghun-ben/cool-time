@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { deleteVisitRecord } from "../../apis/client";
 import CreateVisitRecordForm from "./CreateVisitRecordForm";
+import Link from "next/link";
 
 type Props = {
   climbCenter: ClimbCenter;
@@ -44,8 +45,8 @@ const VisitRecordSection = ({ climbCenter, visitRecords, userId }: Props) => {
   );
 
   return (
-    <section className="flex flex-col gap-4 px-6 py-10">
-      <div className="flex flex-col gap-2">
+    <section className="flex flex-col gap-4 p-6 bg-white rounded-lg">
+      <div className="flex flex-col gap-1">
         <h2 className="text-lg font-semibold">내 방문 기록</h2>
         <p className="text-sm text-slate-500">
           내 방문 기록을 입력하면, 어떤 벽이 새로 세팅되었는지 확인할 수 있어요
@@ -53,8 +54,12 @@ const VisitRecordSection = ({ climbCenter, visitRecords, userId }: Props) => {
       </div>
 
       {!isLoggedIn && (
-        <p className="text-sm text-slate-500">
-          방문 기록을 남기려면 로그인이 필요해요
+        <p className="text-sm text-slate-700">
+          방문 기록을 남기려면{" "}
+          <Link href="/auth/login" className="underline font-bold">
+            로그인
+          </Link>
+          이 필요해요
         </p>
       )}
 

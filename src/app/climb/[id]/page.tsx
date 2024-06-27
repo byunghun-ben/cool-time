@@ -26,8 +26,8 @@ const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
   }
 
   return (
-    <div className="flex flex-1 flex-col overflow-x-hidden">
-      <section className="flex flex-col gap-2 px-6 py-4">
+    <div className="flex flex-1 flex-col gap-6 overflow-x-hidden bg-slate-100 px-3 pt-4 pb-10">
+      <section className="flex flex-col gap-2 p-6 bg-white rounded-lg">
         <h1 className="text-2xl font-black">{climbCenter.name}</h1>
         <p className="text-sm text-slate-700">{climbCenter.address}</p>
         <Link

@@ -2,6 +2,7 @@
 
 import { ClimbCenterSector } from "@/types";
 import { format, isFuture, isPast } from "date-fns";
+import { ko } from "date-fns/locale";
 import { useMemo } from "react";
 
 // 1.	이미 방문했던 벽: Visited
@@ -88,18 +89,6 @@ const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
       >
         <span className="font-semibold">{sector.name}</span>
 
-        {status === SECTOR_STATUS.VISITED && (
-          <span className="text-xs text-slate-500">이미 방문했던 벽</span>
-        )}
-
-        {status === SECTOR_STATUS.NOT_CLIMBED && (
-          <span className="text-xs text-slate-500">아직 타지 못한 벽</span>
-        )}
-
-        {status === SECTOR_STATUS.SETTING_IN_PROGRESS && (
-          <span className="text-xs text-slate-500">세팅중인 벽</span>
-        )}
-
         {status === SECTOR_STATUS.NOT_SET && (
           <span className="text-xs text-slate-500">
             최근 세팅 날짜를 확인할 수 없어요.
@@ -109,7 +98,9 @@ const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
         <div className="flex flex-col">
           <span className="text-xs text-slate-500">최근 세팅 날짜</span>
           {recentSettingDate && (
-            <span className="text-sm text-slate-700">{recentSettingDate}</span>
+            <span className="text-sm text-slate-700">
+              {format(recentSettingDate, "yy. M. d (eee)", { locale: ko })}
+            </span>
           )}
           {!recentSettingDate && (
             <span className="text-sm text-slate-700">확인할 수 없어요 :(</span>
