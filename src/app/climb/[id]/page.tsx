@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getClimbCenter, getVisitRecords } from "../apis/server";
 import CooltimeSection from "./components/CooltimeSection";
 import VisitRecordSection from "./components/VisitRecordSection";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -26,18 +27,27 @@ const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
 
   return (
     <div className="flex flex-1 flex-col overflow-x-hidden">
-      <section className="flex flex-col gap-6 p-6">
+      <section className="flex flex-col gap-2 px-6 py-4">
         <h1 className="text-2xl font-black">{climbCenter.name}</h1>
+        <p className="text-sm text-slate-700">{climbCenter.address}</p>
+        <Link
+          href={climbCenter.instagramUrl}
+          target="_blank"
+          rel="noopener"
+          className="text-sm text-slate-500"
+        >
+          인스타그램
+        </Link>
       </section>
+
+      <CooltimeSection
+        sectors={climbCenter.sectors}
+        visitRecords={visitRecords}
+      />
 
       <VisitRecordSection
         climbCenter={climbCenter}
         userId={user?.id}
-        visitRecords={visitRecords}
-      />
-
-      <CooltimeSection
-        sectors={climbCenter.sectors}
         visitRecords={visitRecords}
       />
     </div>

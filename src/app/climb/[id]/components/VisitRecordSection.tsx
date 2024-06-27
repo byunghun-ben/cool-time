@@ -1,12 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ClimbCenter, VisitRecord } from "@/types";
+import { Trash2Icon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import CreateVisitRecordForm from "./CreateVisitRecordForm";
-import { createClient } from "@/utils/supabase/client";
 import { deleteVisitRecord } from "../../apis/client";
+import CreateVisitRecordForm from "./CreateVisitRecordForm";
 
 type Props = {
   climbCenter: ClimbCenter;
@@ -45,7 +44,7 @@ const VisitRecordSection = ({ climbCenter, visitRecords, userId }: Props) => {
   );
 
   return (
-    <section className="flex flex-col gap-4 px-6 py-3">
+    <section className="flex flex-col gap-4 px-6 py-10">
       <div className="flex flex-col gap-2">
         <h2 className="text-lg font-semibold">내 방문 기록</h2>
         <p className="text-sm text-slate-500">
@@ -66,16 +65,17 @@ const VisitRecordSection = ({ climbCenter, visitRecords, userId }: Props) => {
             {thisCenterVisitRecords.map((visitRecord) => (
               <li
                 key={visitRecord.id}
-                className="flex items-center justify-between bg-white rounded-lg p-3"
+                className="flex items-center justify-between bg-white rounded-lg"
               >
-                <span>{visitRecord.visitDate}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <span className="text-sm text-slate-500">
+                  {visitRecord.visitDate}
+                </span>
+                <button
                   onClick={handleRemoveVisitRecord(visitRecord.id)}
+                  className="text-sm text-slate-500 hover:text-red-500"
                 >
-                  <span>삭제</span>
-                </Button>
+                  <Trash2Icon className="w-4 h-4" />
+                </button>
               </li>
             ))}
           </ul>

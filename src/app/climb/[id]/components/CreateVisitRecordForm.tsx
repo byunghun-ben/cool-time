@@ -24,6 +24,7 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createVisitRecord } from "../../apis/client";
+import { useMutation } from "@tanstack/react-query";
 
 const formSchema = z.object({
   visitDate: z.date(),
@@ -44,35 +45,37 @@ const CreateVisitRecordForm = ({ climbCenter, userId }: Props) => {
   });
   const { reset } = form;
 
+  const mutation = useMutation({
+    mutationFn: createVisitRecord,
+    onSuccess: () => {
+      refresh();
+      reset();
+    },
+    onError: console.error,
+  });
+
   const onSubmitValid = useCallback(
     async ({ visitDate }: FormValues) => {
-      try {
-        await createVisitRecord({
-          climbCenterId: climbCenter.id,
-          userId,
-          visitDate: format(visitDate, "yyyy-MM-dd"),
-        });
-
-        reset();
-        refresh();
-      } catch (error) {
-        console.error(error);
-      }
+      mutation.mutate({
+        userId,
+        climbCenterId: climbCenter.id,
+        visitDate: format(visitDate, "yyyy-MM-dd"),
+      });
     },
-    [userId, climbCenter.id, reset, refresh]
+    [userId, climbCenter.id, mutation]
   );
 
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-4 items-start"
+        className="flex flex-col gap-4"
         onSubmit={form.handleSubmit(onSubmitValid)}
       >
         <FormField
           control={form.control}
           name="visitDate"
           render={({ field }) => (
-            <FormItem className="flex flex-col">
+            <FormItem className="w-full flex flex-col items-start">
               <FormLabel>방문일</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -80,7 +83,7 @@ const CreateVisitRecordForm = ({ climbCenter, userId }: Props) => {
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
+                        "w-full pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -108,8 +111,13 @@ const CreateVisitRecordForm = ({ climbCenter, userId }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" variant="secondary">
-          저장하기
+        <Button
+          type="submit"
+          variant="secondary"
+          className={`${mutation.isPending ? "opacity-50" : ""}`}
+          disabled={mutation.isPending}
+        >
+          {mutation.isPending ? "저장 중..." : "저장"}
         </Button>
       </form>
     </Form>
