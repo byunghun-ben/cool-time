@@ -1,6 +1,20 @@
 import { VisitRecordSchema, climbingCenterSchema } from "@/schemas";
 import { createClient } from "@/utils/supabase/server";
 
+export const getUser = async () => {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+  if (error) {
+    console.error("supabase Error:getUser", error);
+    return null;
+  }
+
+  return user;
+};
+
 export const getClimbCenters = async () => {
   const supabase = createClient();
 
@@ -27,7 +41,7 @@ export const getClimbCenters = async () => {
   `);
 
   if (error) {
-    console.error("supabase Error", error);
+    console.error("supabase Error:getClimbCenters", error);
     return [];
   }
 

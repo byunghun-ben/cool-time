@@ -21,9 +21,6 @@ const Nav = ({ userId }: Props) => {
       </Link>
 
       <div className="flex items-center gap-4">
-        <Link href="/climb" className="text-sm font-bold text-slate-700">
-          전체 암장 보기
-        </Link>
         {!isLoggedIn && (
           <Link href="/auth/login" className="text-sm font-bold text-slate-700">
             로그인

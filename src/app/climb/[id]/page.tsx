@@ -34,7 +34,7 @@ const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
           href={climbCenter.instagramUrl}
           target="_blank"
           rel="noopener"
-          className="text-sm text-slate-500"
+          className="text-sm text-slate-500 mr-auto"
         >
           인스타그램
         </Link>

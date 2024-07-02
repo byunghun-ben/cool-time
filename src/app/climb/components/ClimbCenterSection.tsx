@@ -18,12 +18,13 @@ const ClimbCenterSection = async ({ climbCenters }: Props) => {
   }, {} as Record<string, ClimbCenter[]>);
 
   return (
-    <section className="flex flex-col gap-6 px-6 py-6">
+    <section className="flex flex-col gap-6 px-6 py-6 bg-white">
+      <h1 className="text-2xl font-bold">클라이밍 센터</h1>
       <ul className="flex flex-col gap-2">
         {Object.entries(climbCentersByBrand).map(
           ([brandName, climbCenters]) => (
             <li key={brandName} className="flex flex-col gap-4">
-              <h2 className="text-xl font-bold bg-slate-100 p-3">
+              <h2 className="text-xl font-bold bg-slate-100 border border-slate-200 p-3 rounded-lg">
                 {brandName}
               </h2>
               <ul className="flex flex-col gap-2">
@@ -33,9 +34,9 @@ const ClimbCenterSection = async ({ climbCenters }: Props) => {
                       className="flex items-center justify-between p-3 bg-white rounded-md hover:bg-slate-100"
                       href={`/climb/${climbCenter.id}`}
                     >
-                      <div className="flex flex-col gap-1">
+                      <div className="w-full flex flex-col gap-1">
                         <span className="font-bold">{climbCenter.name}</span>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-slate-500">
                           {climbCenter.address}
                         </span>
                       </div>
