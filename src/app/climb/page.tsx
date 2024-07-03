@@ -3,13 +3,12 @@ import ClimbCenterSection from "./components/ClimbCenterSection";
 import VisitRecordSection from "./components/VisitRecordSection";
 
 const ClimbPage = async () => {
-  // const user = await getUser();
-  // const climbCenters = await getClimbCenters();
-  // 위 두 작업을 병렬로 처리하도록 하기 위해 Promise.all을 사용
+  console.time("ClimbPage");
   const [user, climbCenters] = await Promise.all([
     getUser(),
     getClimbCenters(),
   ]);
+  console.timeEnd("ClimbPage");
 
   return (
     <div className="flex flex-1 flex-col gap-6 overflow-x-hidden bg-slate-100">

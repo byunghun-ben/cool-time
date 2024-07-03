@@ -80,10 +80,13 @@ const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
   const climbCenterId = Number(id);
   const user = await getUser();
 
+  console.time(`climbCenter-${climbCenterId}`);
   const [climbCenter, visitRecords] = await Promise.all([
     getClimbCenter(climbCenterId),
     getVisitRecords({ userId: user?.id }),
   ]);
+
+  console.timeEnd(`climbCenter-${climbCenterId}`);
 
   if (!climbCenter) {
     return notFound();
