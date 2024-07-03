@@ -1,8 +1,10 @@
-import { errorResponseSchema, successResponseSchema } from "@/lib/apiResponse";
 import { getURL } from "@/lib/utils";
 import { VisitRecordSchema, climbingCenterSchema } from "@/schemas";
 import { createClient } from "@/utils/supabase/server";
 import { User } from "@supabase/auth-js";
+import "server-only";
+import { cache } from "react";
+import { cookies } from "next/headers";
 
 const BASE_URL = getURL();
 
@@ -12,6 +14,11 @@ export const getUser = async () => {
     data: { user },
     error,
   } = await supabase.auth.getUser();
+
+  if (error && error.status === 400) {
+    return null;
+  }
+
   if (error) {
     console.error("supabase Error:getUser", error);
     return null;
@@ -20,57 +27,46 @@ export const getUser = async () => {
   return user as User;
 };
 
-export const getClimbCenters = async () => {
-  const res = await fetch(`${BASE_URL}/api/climb-center`);
+export const getClimbCenters = cache(async () => {
+  const cookieStore = cookies();
+  const supabase = createClient();
 
-  if (!res.ok) {
-    const errorBody = errorResponseSchema.parse(await res.json());
-    console.error("Failed to fetch climb centers", errorBody);
+  const { data, error } = await supabase.from("climb_center").select(`
+    id,
+    name,
+    address,
+    brandId:brand_id,
+    instagramUrl:instagram_url,
+    sectors:climb_center_sector (
+      id,
+      name,
+      climbCenterId:climb_center_id,
+      settingHistory:climb_center_sector_setting (
+        id,
+        sectorId:sector_id,
+        settingDate:setting_date
+      )
+    ),
+    brand:climb_brand (
+      id,
+      name
+    )
+  `);
+
+  if (error) {
+    console.error("supabase Error:getClimbCenters", error);
     return [];
   }
 
-  const { data } = successResponseSchema.parse(await res.json());
-  const climbCenters = climbingCenterSchema.array().parse(data);
+  try {
+    return climbingCenterSchema.array().parse(data);
+  } catch (error) {
+    console.error("Error parsing response", data);
+    return [];
+  }
+});
 
-  return climbCenters;
-  // const supabase = createClient();
-
-  // const { data, error } = await supabase.from("climb_center").select(`
-  //   id,
-  //   name,
-  //   address,
-  //   brandId:brand_id,
-  //   instagramUrl:instagram_url,
-  //   sectors:climb_center_sector (
-  //     id,
-  //     name,
-  //     climbCenterId:climb_center_id,
-  //     settingHistory:climb_center_sector_setting (
-  //       id,
-  //       sectorId:sector_id,
-  //       settingDate:setting_date
-  //     )
-  //   ),
-  //   brand:climb_brand (
-  //     id,
-  //     name
-  //   )
-  // `);
-
-  // if (error) {
-  //   console.error("supabase Error:getClimbCenters", error);
-  //   return [];
-  // }
-
-  // try {
-  //   return climbingCenterSchema.array().parse(data);
-  // } catch (error) {
-  //   console.error("Error parsing response", data);
-  //   return [];
-  // }
-};
-
-export const getClimbCenter = async (id: number) => {
+export const getClimbCenter = cache(async (id: number) => {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -112,19 +108,20 @@ export const getClimbCenter = async (id: number) => {
     console.error("Error parsing response", data);
     return null;
   }
-};
+});
 
-export const getVisitRecords = async ({ userId }: { userId?: string }) => {
-  if (!userId) {
-    return [];
-  }
+export const getVisitRecords = cache(
+  async ({ userId }: { userId?: string }) => {
+    if (!userId) {
+      return [];
+    }
 
-  const supabase = createClient();
+    const supabase = createClient();
 
-  const { data, error } = await supabase
-    .from("climb_center_visit")
-    .select(
-      `
+    const { data, error } = await supabase
+      .from("climb_center_visit")
+      .select(
+        `
       id,
       climbCenterId:climb_center_id,
       userId:user_id,
@@ -134,13 +131,14 @@ export const getVisitRecords = async ({ userId }: { userId?: string }) => {
         name
       )
     `
-    )
-    .eq("user_id", userId);
+      )
+      .eq("user_id", userId);
 
-  if (error) {
-    console.error("supabase Error", error);
-    return [];
+    if (error) {
+      console.error("supabase Error", error);
+      return [];
+    }
+
+    return VisitRecordSchema.array().parse(data);
   }
-
-  return VisitRecordSchema.array().parse(data);
-};
+);
