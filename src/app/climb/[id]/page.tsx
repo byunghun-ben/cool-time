@@ -1,11 +1,11 @@
-import { createClient } from "@/utils/supabase/server";
+import { getURL } from "@/lib/utils";
+import { createServerClient } from "@supabase/ssr";
+import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getClimbCenter, getVisitRecords } from "../apis/server";
+import { getClimbCenter, getUser, getVisitRecords } from "../apis/server";
 import CooltimeSection from "./components/CooltimeSection";
 import VisitRecordSection from "./components/VisitRecordSection";
-import Link from "next/link";
-import { Metadata } from "next";
-import { getURL } from "@/lib/utils";
 
 const url = getURL();
 
@@ -52,19 +52,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+export async function generateStaticParams(): Promise<{ id: string }[]> {
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return null;
+        },
+      },
+    }
+  );
+  const { data: climbCenters, error } = await supabase
+    .from("climb_center")
+    .select("id");
+
+  if (error) {
+    console.error("supabase Error", error);
+    return [];
+  }
+
+  return climbCenters.map((climbCenter) => ({ id: String(climbCenter.id) }));
+}
+
 const ClimbCenterDetailPage = async ({ params: { id } }: Props) => {
-  console.time("ClimbCenterDetailPage");
   const climbCenterId = Number(id);
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUser();
 
   const [climbCenter, visitRecords] = await Promise.all([
     getClimbCenter(climbCenterId),
     getVisitRecords({ userId: user?.id }),
   ]);
-  console.timeEnd("ClimbCenterDetailPage");
 
   if (!climbCenter) {
     return notFound();

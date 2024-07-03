@@ -28,7 +28,6 @@ export const getUser = async () => {
 };
 
 export const getClimbCenters = cache(async () => {
-  const cookieStore = cookies();
   const supabase = createClient();
 
   const { data, error } = await supabase.from("climb_center").select(`
