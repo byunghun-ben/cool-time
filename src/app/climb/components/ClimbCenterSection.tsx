@@ -19,8 +19,8 @@ const ClimbCenterSection = async ({ climbCenters }: Props) => {
 
   return (
     <section className="flex flex-col gap-6 px-6 py-6 bg-white">
-      <h1 className="text-2xl font-bold">클라이밍 센터</h1>
-      <ul className="flex flex-col gap-2">
+      <h1 className="text-lg font-bold">클라이밍 센터</h1>
+      <ul className="flex flex-col gap-4">
         {Object.entries(climbCentersByBrand).map(
           ([brandName, climbCenters]) => (
             <li key={brandName} className="flex flex-col gap-4">

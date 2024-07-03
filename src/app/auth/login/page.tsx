@@ -20,8 +20,8 @@ const LoginPage = () => {
 
   return (
     <div className="flex-1 flex flex-col items-center px-8 py-16">
-      <div className="w-full flex flex-col gap-10">
-        <div className="flex flex-col gap-3 text-center">
+      <div className="max-w-80 w-full flex flex-col gap-10">
+        <div className="flex flex-col gap-3">
           <h1 className="text-2xl font-bold">클타임 로그인하기</h1>
           <p className="text-slate-500">
             암장 방문 기록을 위해서 로그인이 필요해요!

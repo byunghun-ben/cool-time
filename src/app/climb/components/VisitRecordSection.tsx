@@ -4,10 +4,31 @@ import { VisitRecord } from "@/types";
 import Link from "next/link";
 
 type Props = {
-  userId: string;
+  userId: string | undefined;
 };
 
 const VisitRecordSection = async ({ userId }: Props) => {
+  if (!userId) {
+    return (
+      <section className="flex flex-col gap-2 px-6 py-6 bg-white">
+        <h1 className="text-lg font-bold">내 클라이밍 기록</h1>
+        <div className="flex flex-col gap-1">
+          <p className="text-sm text-slate-500">
+            내 방문 기록을 입력하면, 어떤 벽이 새로 세팅되었는지 확인할 수
+            있어요
+          </p>
+          <p className="text-sm text-slate-700">
+            방문 기록을 남기려면{" "}
+            <Link href="/auth/login" className="underline font-bold">
+              로그인
+            </Link>
+            이 필요해요
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   const visitRecords = await getVisitRecords({ userId });
   const isEmpty = visitRecords.length === 0;
 
@@ -27,7 +48,7 @@ const VisitRecordSection = async ({ userId }: Props) => {
 
   return (
     <section className="flex flex-col gap-6 px-6 py-6 bg-white">
-      <h1 className="text-2xl font-bold">내 클라이밍 기록</h1>
+      <h1 className="text-lg font-bold">내 클라이밍 기록</h1>
       {isEmpty && (
         <div className="flex flex-col gap-2">
           <span>아직은 클라이밍 센터에 다녀온 기록이 없어요</span>
