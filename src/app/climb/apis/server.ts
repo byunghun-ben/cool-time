@@ -2,9 +2,8 @@ import { getURL } from "@/lib/utils";
 import { VisitRecordSchema, climbingCenterSchema } from "@/schemas";
 import { createClient } from "@/utils/supabase/server";
 import { User } from "@supabase/auth-js";
-import "server-only";
 import { cache } from "react";
-import { cookies } from "next/headers";
+import "server-only";
 
 const BASE_URL = getURL();
 
