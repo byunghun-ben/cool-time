@@ -1,11 +1,8 @@
-import { getURL } from "@/lib/utils";
 import { VisitRecordSchema, climbingCenterSchema } from "@/schemas";
 import { createClient } from "@/utils/supabase/server";
 import { User } from "@supabase/auth-js";
 import { cache } from "react";
 import "server-only";
-
-const BASE_URL = getURL();
 
 export const getUser = async () => {
   const supabase = createClient();
@@ -25,44 +22,6 @@ export const getUser = async () => {
 
   return user as User;
 };
-
-export const getClimbCenters = cache(async () => {
-  const supabase = createClient();
-
-  const { data, error } = await supabase.from("climb_center").select(`
-    id,
-    name,
-    address,
-    brandId:brand_id,
-    instagramUrl:instagram_url,
-    sectors:climb_center_sector (
-      id,
-      name,
-      climbCenterId:climb_center_id,
-      settingHistory:climb_center_sector_setting (
-        id,
-        sectorId:sector_id,
-        settingDate:setting_date
-      )
-    ),
-    brand:climb_brand (
-      id,
-      name
-    )
-  `);
-
-  if (error) {
-    console.error("supabase Error:getClimbCenters", error);
-    return [];
-  }
-
-  try {
-    return climbingCenterSchema.array().parse(data);
-  } catch (error) {
-    console.error("Error parsing response", data);
-    return [];
-  }
-});
 
 export const getClimbCenter = cache(async (id: number) => {
   const supabase = createClient();

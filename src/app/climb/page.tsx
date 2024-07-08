@@ -1,4 +1,5 @@
-import { getClimbCenters, getUser } from "./apis/server";
+import { getUser } from "./apis/server";
+import { getClimbCenters } from "./apis/server/getClimbCenters";
 import ClimbCenterSection from "./components/ClimbCenterSection";
 import VisitRecordSection from "./components/VisitRecordSection";
 

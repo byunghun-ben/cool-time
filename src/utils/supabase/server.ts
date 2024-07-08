@@ -27,3 +27,18 @@ export function createClient() {
     }
   );
 }
+
+export const createClientWithoutCookies = () => {
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return null;
+        },
+        setAll() {},
+      },
+    }
+  );
+};

@@ -95,7 +95,7 @@ const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
           </span>
         )}
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
           <span className="text-xs text-slate-500">최근 세팅 날짜</span>
           {recentSettingDate && (
             <span className="text-sm text-slate-700">
@@ -107,13 +107,15 @@ const SectorItem = ({ sector, lastVisitDate }: SectorItemProps) => {
           )}
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
           <span className="text-xs text-slate-500">다음 세팅 날짜</span>
           {nextSettingDate && (
-            <span className="text-sm text-slate-700">{nextSettingDate}</span>
+            <span className="text-sm text-slate-700">
+              {format(nextSettingDate, "yy. M. d (eee)", { locale: ko })}
+            </span>
           )}
           {!nextSettingDate && (
-            <span className="text-sm text-slate-700">확인할 수 없어요 :(</span>
+            <span className="text-sm text-slate-500">확인할 수 없어요 :(</span>
           )}
         </div>
       </div>
