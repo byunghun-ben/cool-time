@@ -47,7 +47,8 @@ export const getClimbCenter = cache(async (id: number) => {
       ),
       brand:climb_brand (
         id,
-        name
+        name,
+        logoUrl:logo_url
       )
     `
     )

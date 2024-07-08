@@ -25,7 +25,8 @@ const getClimbCenters = cache(async () => {
     ),
     brand:climb_brand (
       id,
-      name
+      name,
+      logoUrl:logo_url
     )
   `);
 

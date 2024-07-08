@@ -34,7 +34,8 @@ export const GET = async (request: Request, { params }: Parmas) => {
       ),
       brand:climb_brand (
         id,
-        name
+        name,
+        logoUrl:logo_url
       )
     `
     )

@@ -1,12 +1,10 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
+import { getUser } from "../climb/apis/server";
 
-type Props = {
-  userId?: string;
-};
-
-const Nav = ({ userId }: Props) => {
-  const isLoggedIn = !!userId;
+const Nav = async () => {
+  const user = await getUser();
+  const isLoggedIn = !!user?.id;
 
   const signOut = async () => {
     "use server";
@@ -16,11 +14,14 @@ const Nav = ({ userId }: Props) => {
 
   return (
     <header className="sticky top-0 z-50 h-12 bg-white border-b px-4 flex items-center justify-between">
-      <Link href="/climb" className="font-black text-slate-700">
+      <Link href="/" className="font-black text-slate-700">
         클(라이밍 쿨)타임
       </Link>
 
       <div className="flex items-center gap-4">
+        <Link href="/climb" className="text-sm font-bold text-slate-700">
+          클라이밍 센터
+        </Link>
         {!isLoggedIn && (
           <Link href="/auth/login" className="text-sm font-bold text-slate-700">
             로그인
@@ -28,7 +29,7 @@ const Nav = ({ userId }: Props) => {
         )}
         {isLoggedIn && (
           <form action={signOut}>
-            <button type="submit" className="text-sm font-bold text-slate-700">
+            <button type="submit" className="text-sm font-bold text-slate-500">
               로그아웃
             </button>
           </form>

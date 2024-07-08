@@ -27,6 +27,7 @@ export const climbCenterSectorSchema = z.object({
 export const climbBrandSchema = z.object({
   id: z.number(),
   name: z.string(),
+  logoUrl: z.string(),
 });
 
 export const climbingCenterSchema = z.object({

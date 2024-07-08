@@ -5,6 +5,11 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import Nav from "./_components/Nav";
+import { setDefaultOptions } from "date-fns";
+import { ko } from "date-fns/locale";
+
+setDefaultOptions({ locale: ko });
 
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 const bodyClassName = cn(
@@ -25,7 +30,10 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <body className={bodyClassName}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Nav />
+          {children}
+        </Providers>
         <SpeedInsights />
         <Analytics />
       </body>

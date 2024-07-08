@@ -1,5 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
-import { format } from "date-fns";
+import { format, startOfWeek } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -26,4 +26,15 @@ export const getURL = () => {
   // Make sure to include a trailing `/`.
   url = url.endsWith("/") ? url : `${url}/`;
   return url;
+};
+
+export const getWeekDates = (weekLength: number = 7) => {
+  const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
+  const weekDates = Array.from({ length: weekLength }).map((_, i) => {
+    const date = new Date(weekStart);
+    date.setDate(weekStart.getDate() + i);
+    return format(date, "yyyy-MM-dd");
+  });
+
+  return weekDates;
 };

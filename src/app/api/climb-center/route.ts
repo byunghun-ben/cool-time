@@ -26,7 +26,8 @@ export const GET = async (request: Request) => {
       ),
       brand:climb_brand (
         id,
-        name
+        name,
+        logoUrl:logo_url
       )
     `);
 

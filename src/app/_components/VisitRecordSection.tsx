@@ -1,14 +1,11 @@
-import { format } from "date-fns";
-import { getVisitRecords } from "../apis/server";
 import { VisitRecord } from "@/types";
+import { format } from "date-fns";
 import Link from "next/link";
+import { getUser, getVisitRecords } from "../climb/apis/server";
 
-type Props = {
-  userId: string | undefined;
-};
-
-const VisitRecordSection = async ({ userId }: Props) => {
-  if (!userId) {
+const VisitRecordSection = async () => {
+  const user = await getUser();
+  if (!user?.id) {
     return (
       <section className="flex flex-col gap-2 px-6 py-6 bg-white">
         <h1 className="text-lg font-bold">내 클라이밍 기록</h1>
@@ -29,7 +26,7 @@ const VisitRecordSection = async ({ userId }: Props) => {
     );
   }
 
-  const visitRecords = await getVisitRecords({ userId });
+  const visitRecords = await getVisitRecords({ userId: user.id });
   const isEmpty = visitRecords.length === 0;
 
   visitRecords.sort((a, b) => {

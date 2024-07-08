@@ -1,19 +1,14 @@
 import { getUser } from "./apis/server";
 import getClimbCenters from "./apis/server/getClimbCenters";
 import ClimbCenterSection from "./components/ClimbCenterSection";
-import VisitRecordSection from "./components/VisitRecordSection";
 
 const ClimbPage = async () => {
   console.time("ClimbPage");
-  const [user, climbCenters] = await Promise.all([
-    getUser(),
-    getClimbCenters(),
-  ]);
+  const [climbCenters] = await Promise.all([getClimbCenters()]);
   console.timeEnd("ClimbPage");
 
   return (
     <div className="flex flex-1 flex-col gap-6 overflow-x-hidden bg-slate-100">
-      <VisitRecordSection userId={user?.id} />
       <ClimbCenterSection climbCenters={climbCenters} />
     </div>
   );

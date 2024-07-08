@@ -1,8 +1,14 @@
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import ClimbCentersInSettingSection from "@/components/ClimbCentersInSettingSection";
+import getClimbCenters from "./climb/apis/server/getClimbCenters";
+import VisitRecordSection from "./_components/VisitRecordSection";
 
-export default function Home() {
-  const headersList = headers();
-  const host = headersList.get("X-Forwarded-Host");
-  redirect(`/climb`);
+export default async function Home() {
+  const climbCenters = await getClimbCenters();
+
+  return (
+    <>
+      <ClimbCentersInSettingSection climbCenters={climbCenters} />
+      <VisitRecordSection />
+    </>
+  );
 }
