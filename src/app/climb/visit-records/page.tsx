@@ -1,4 +1,4 @@
-import { getClimbCenters } from "../apis/server/getClimbCenters";
+import getClimbCenters from "../apis/server/getClimbCenters";
 import VisitedCentersSection from "./components/VisitedCentersSection";
 
 const VisitedClimbCentersPage = async () => {

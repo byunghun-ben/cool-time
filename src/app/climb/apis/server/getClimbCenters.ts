@@ -1,9 +1,10 @@
 import { climbingCenterSchema } from "@/schemas";
 import { createClientWithoutCookies } from "@/utils/supabase/server";
+import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import "server-only";
 
-export const getClimbCenters = cache(async () => {
+const getClimbCenters = cache(async () => {
   const supabase = createClientWithoutCookies();
 
   const { data, error } = await supabase.from("climb_center").select(`
@@ -40,3 +41,5 @@ export const getClimbCenters = cache(async () => {
     return [];
   }
 });
+
+export default unstable_cache(getClimbCenters, ["getClimbCenters"]);
