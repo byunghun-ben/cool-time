@@ -23,8 +23,10 @@ export const getURL = () => {
     "http://localhost:3000/";
   // Make sure to include `https://` when not localhost.
   url = url.startsWith("http") ? url : `https://${url}`;
-  // Make sure to include a trailing `/`.
-  url = url.endsWith("/") ? url : `${url}/`;
+
+  // 끝에 / 가 있으면 제거한다.
+  url = url.endsWith("/") ? url.slice(0, -1) : url;
+
   return url;
 };
 
