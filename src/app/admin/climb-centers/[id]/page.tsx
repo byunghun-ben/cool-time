@@ -1,6 +1,6 @@
 import { getClimbCenter } from "@/app/climb/apis/server";
 import { notFound } from "next/navigation";
-import SectorSection from "./components/SectorSection";
+import SectorSection from "./_components/SectorSection";
 
 type Props = {
   params: {

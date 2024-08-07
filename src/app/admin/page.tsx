@@ -1,14 +1,12 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import AddClimbCenterForm from "./components/AddClimbCenterForm";
 import getClimbCenters from "../climb/apis/server/getClimbCenters";
 
 const AdminPage = async () => {
   const climbingCenters = await getClimbCenters();
   return (
     <div>
-      <h1>Admin</h1>
-      <div className="max-w-sm border p-6 mx-auto flex flex-col gap-10">
+      <div className="max-w-sm p-6 mx-auto flex flex-col gap-10">
         <h2 className="text-lg font-semibold">암장 목록</h2>
 
         <ul className="space-y-4">
@@ -22,11 +20,6 @@ const AdminPage = async () => {
             </li>
           ))}
         </ul>
-      </div>
-
-      <div className="max-w-sm border p-6 mx-auto flex flex-col gap-10">
-        <h2 className="text-lg font-semibold">암장 추가</h2>
-        <AddClimbCenterForm />
       </div>
     </div>
   );
