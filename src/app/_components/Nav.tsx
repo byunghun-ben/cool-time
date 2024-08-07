@@ -20,7 +20,7 @@ const Nav = async () => {
 
       <div className="flex items-center gap-4">
         <Link href="/climb" className="text-sm font-bold text-slate-700">
-          클라이밍 센터
+          암장 목록
         </Link>
         {!isLoggedIn && (
           <Link href="/auth/login" className="text-sm font-bold text-slate-700">

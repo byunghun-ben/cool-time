@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { createSector } from "../_actions";
 
 const formSchema = z.object({
   name: z.string().min(1, "이름을 입력해주세요."),
@@ -41,28 +42,18 @@ const AddSectorForm = ({ climbCenterId }: Props) => {
 
   const onSubmit = useCallback(
     async (values: FormValues) => {
-      const response = await fetch(`/api/climb-center-sector`, {
-        method: "POST",
-        body: JSON.stringify({
-          climbCenterId,
-          name: values.name,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      try {
+        await createSector(climbCenterId, values.name);
 
-      if (!response.ok) {
+        form.reset();
+        setShowForm(false);
+        router.refresh();
+      } catch (error) {
         form.setError("root", {
           type: "server",
           message: "Failed to add sector",
         });
-        return;
       }
-
-      form.reset();
-      setShowForm(false);
-      router.refresh();
     },
     [climbCenterId, form, router]
   );

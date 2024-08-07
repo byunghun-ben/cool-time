@@ -4,29 +4,9 @@ import { Button } from "@/components/ui/button";
 import { ClimbCenter } from "@/types";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import { deleteClimbSectorSetting } from "../_actions";
 import AddSectorForm from "./AddSectorForm";
 import AddSectorSettingDialog from "./AddSectorSettingDialog";
-
-const deleteClimbSectorSetting = async (climbSectorSettingId: number) => {
-  try {
-    const response = await fetch(
-      `/api/climb-sector-setting/${climbSectorSettingId}`,
-      {
-        method: "DELETE",
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to delete climb sector setting");
-    }
-
-    const body = await response.json();
-    return body;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
 
 type Props = {
   climbCenter: ClimbCenter;
@@ -37,8 +17,12 @@ const SectorSection = ({ climbCenter }: Props) => {
 
   const handleClickDelete = useCallback(
     (sectorSettingId: number) => async () => {
-      await deleteClimbSectorSetting(sectorSettingId);
-      router.refresh();
+      try {
+        await deleteClimbSectorSetting(sectorSettingId);
+        router.refresh();
+      } catch (error) {
+        console.error(error);
+      }
     },
     [router]
   );

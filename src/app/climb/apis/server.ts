@@ -6,21 +6,19 @@ import "server-only";
 
 export const getUser = async () => {
   const supabase = createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error && error.status === 400) {
+  try {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
+    if (error) {
+      return null;
+    }
+    return user as User;
+  } catch (error) {
+    console.error("왜 에러가 나는거지?", error);
     return null;
   }
-
-  if (error) {
-    console.error("supabase Error:getUser", error);
-    return null;
-  }
-
-  return user as User;
 };
 
 export const getClimbCenter = cache(async (id: number) => {
@@ -56,7 +54,7 @@ export const getClimbCenter = cache(async (id: number) => {
     .single();
 
   if (error) {
-    console.error("supabase Error", error);
+    console.error("getClimbCenter", "supabase Error", error);
     return null;
   }
 
@@ -93,7 +91,7 @@ export const getVisitRecords = cache(
       .eq("user_id", userId);
 
     if (error) {
-      console.error("supabase Error", error);
+      console.error("123 supabase Error", error);
       return [];
     }
 

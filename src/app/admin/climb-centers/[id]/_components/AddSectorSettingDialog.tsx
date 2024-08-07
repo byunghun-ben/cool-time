@@ -33,28 +33,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-const createSectorSetting = async (sectorId: number, settingDate: string) => {
-  const response = await fetch(`/api/climb-sector-setting`, {
-    method: "POST",
-    body: JSON.stringify({
-      sectorId,
-      settingDate,
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to create sector setting");
-  }
-
-  try {
-    const body = await response.json();
-    return body;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
+import { createSectorSetting } from "../_actions";
 
 const formSchema = z.object({
   settingDate: z.date({
@@ -64,8 +43,6 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const resolver = zodResolver(formSchema);
-
 type Props = {
   sector: ClimbCenterSector;
 };
@@ -74,16 +51,23 @@ const AddSectorSettingDialog = ({ sector }: Props) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const form = useForm<FormValues>({
-    resolver,
+    resolver: zodResolver(formSchema),
   });
 
   const onSubmit = useCallback(
     async (formValues: FormValues) => {
       const settingDate = format(formValues.settingDate, "yyyy-MM-dd");
-      await createSectorSetting(sector.id, settingDate);
-      form.reset();
-      setOpen(false);
-      router.refresh();
+      try {
+        await createSectorSetting(sector.id, settingDate);
+        form.reset();
+        setOpen(false);
+        router.refresh();
+      } catch (error) {
+        form.setError("root", {
+          type: "server",
+          message: "세팅 기록 추가에 실패했습니다.",
+        });
+      }
     },
     [form, sector.id, router]
   );
